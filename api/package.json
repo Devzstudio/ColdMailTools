@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@redwoodjs/api": "6.1.1",
-    "@redwoodjs/graphql-server": "6.1.1"
+    "@redwoodjs/graphql-server": "6.1.1",
+    "ai": "^2.2.11",
+    "openai": "^4.4.0",
+    "resend": "^1.0.0"
   }
 }
