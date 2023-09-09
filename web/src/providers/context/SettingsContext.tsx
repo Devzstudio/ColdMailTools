@@ -3,8 +3,9 @@ import { useReducer } from 'react'
 const InitialState = {
   subject: '',
   message: '',
-  openai_api: '[API]',
+  openai_api: '',
   resend_api: '',
+  from_email: '',
   editor: 'textarea',
   twitter_username: '',
   twitter_id: '',

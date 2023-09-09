@@ -45,6 +45,7 @@ const HomePage = () => {
     {
       name: 'Jijin P',
       email: 'jijin@devzstudio.com',
+      twitter: 'pjijin_',
       status: 'completed',
     },
     {
@@ -89,6 +90,16 @@ const HomePage = () => {
       }
     }
   }, [selectedUser, settings])
+
+  const markAsCompleted = (item) => {
+    const index = list.findIndex((x) => x.email === item.email)
+
+    if (index !== -1) {
+      const newList = [...list]
+      newList[index].status = 'completed'
+      setList(newList)
+    }
+  }
 
   return (
     <>
@@ -243,7 +254,10 @@ const HomePage = () => {
                           {settings.editor === 'textarea' ? null : (
                             <CopyToClipboard
                               text={htmlContents}
-                              onCopy={() => toast('Copied to clipboard!')}
+                              onCopy={() => {
+                                toast('Copied to clipboard!')
+                                markAsCompleted(selectedUser)
+                              }}
                             >
                               <Button color="gray" variant="ghost">
                                 <CopyIcon /> Html
@@ -253,7 +267,10 @@ const HomePage = () => {
 
                           <CopyToClipboard
                             text={textContents}
-                            onCopy={() => toast('Copied to clipboard!')}
+                            onCopy={() => {
+                              toast('Copied to clipboard!')
+                              markAsCompleted(selectedUser)
+                            }}
                           >
                             <Button color="gray" variant="ghost">
                               <CopyIcon />
@@ -270,15 +287,36 @@ const HomePage = () => {
                             Send Message on{' '}
                           </span>
 
-                          <Button color="gray" variant="ghost" size={'2'}>
-                            <TwitterLogoIcon /> Twitter
-                          </Button>
+                          {settings.twitter_id && selectedUser.twitter_id ? (
+                            <a
+                              href={`https://twitter.com/messages/${
+                                settings.twitter_id
+                              }-${selectedUser.twitter_id}?text=${encodeURI(
+                                textContents
+                              )}`}
+                            >
+                              <Button
+                                onClick={() => {
+                                  markAsCompleted(selectedUser)
+                                }}
+                                color="gray"
+                                variant="ghost"
+                                size={'2'}
+                              >
+                                <TwitterLogoIcon /> Twitter
+                              </Button>
+                            </a>
+                          ) : null}
+
                           <a
                             href={`https://web.whatsapp.com/send?text=${encodeURI(
                               textContents
                             )}`}
                             target="_BLANK"
                             rel="noreferrer noopener"
+                            onClick={() => {
+                              markAsCompleted(selectedUser)
+                            }}
                           >
                             <Button color="gray" variant="ghost" size={'2'}>
                               WhatsApp
@@ -288,6 +326,9 @@ const HomePage = () => {
                             href={`https://t.me/share/url?url=${encodeURI(
                               textContents
                             )}`}
+                            onClick={() => {
+                              markAsCompleted(selectedUser)
+                            }}
                             target="_BLANK"
                             rel="noreferrer noopener"
                           >
@@ -296,7 +337,13 @@ const HomePage = () => {
                             </Button>
                           </a>
                           {settings.resend_api ? (
-                            <Button variant="solid" size={'2'}>
+                            <Button
+                              onClick={() => {
+                                markAsCompleted(selectedUser)
+                              }}
+                              variant="solid"
+                              size={'2'}
+                            >
                               <PaperPlaneIcon /> Mail
                             </Button>
                           ) : null}

@@ -46,6 +46,17 @@ const SetAPI = () => {
           </div>
           <div className="space-y-1">
             <Text color="gray" size="2">
+              From Email:
+            </Text>
+            <TextField.Input
+              size="2"
+              placeholder="From Email"
+              value={settings.from_email}
+              onChange={(e) => onUpdateSettings('from_email', e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Text color="gray" size="2">
               OpenAI Api Key
             </Text>
 
@@ -65,11 +76,9 @@ const SetAPI = () => {
             <TextField.Input
               size="2"
               id="openai"
-              placeholder="Your twitter username"
-              value={settings.openai_api}
-              onChange={(e) =>
-                onUpdateSettings('twitter_username', e.target.value)
-              }
+              placeholder="Your twitter id: 167xxxxxx"
+              value={settings.twitter_id}
+              onChange={(e) => onUpdateSettings('twitter_id', e.target.value)}
             />
           </div>
           <div className="space-y-1">
