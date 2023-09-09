@@ -40,6 +40,7 @@ const CSVUpload = ({ onSave }: { onSave: (value: any[]) => void }) => {
                 result.push({
                   email: data[0],
                   name: data[1] ?? '',
+                  twitter: data[2] ?? '',
                 })
             }
           }
@@ -54,7 +55,7 @@ const CSVUpload = ({ onSave }: { onSave: (value: any[]) => void }) => {
 
   return (
     <div
-      className="grid h-24 place-items-center rounded-lg border border-gray-800 bg-[#191919] p-5 text-sm text-gray-300"
+      className="grid h-24   place-items-center rounded-lg border border-gray-800 bg-[#191919] p-5 text-sm text-gray-300"
       {...getRootProps()}
     >
       <input {...getInputProps()} />

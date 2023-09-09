@@ -4,9 +4,11 @@ import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import '@radix-ui/themes/styles.css'
-import Routes from 'src/Routes'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
+import Routes from 'src/Routes'
+
 import './index.css'
+import AllContextProviders from './providers/context'
 
 const App = () => (
   <>
@@ -27,7 +29,9 @@ const App = () => (
       <FatalErrorBoundary page={FatalErrorPage}>
         <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
           <RedwoodApolloProvider>
-            <Routes />
+            <AllContextProviders>
+              <Routes />
+            </AllContextProviders>
           </RedwoodApolloProvider>
         </RedwoodProvider>
       </FatalErrorBoundary>

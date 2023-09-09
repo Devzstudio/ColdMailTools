@@ -13,7 +13,9 @@ export const ContactInfo = ({ item }: { item: any }) => {
         <Text as="div" size="2" color="gray">
           {item.email}
         </Text>
-        <Badge color="green">Completed</Badge>
+        {item.status === 'completed' ? (
+          <Badge color="green">Completed</Badge>
+        ) : null}
       </Box>
     </Flex>
   )

@@ -22,6 +22,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-github-button": "^0.1.11",
     "react-nice-avatar": "^1.4.1",
     "sonner": "^0.7.0"
   },

@@ -2,33 +2,50 @@ import { useEffect } from 'react'
 
 import {
   CopyIcon,
+  GearIcon,
   MagicWandIcon,
   PaperPlaneIcon,
   TrashIcon,
+  TwitterLogoIcon,
 } from '@radix-ui/react-icons'
-import { Box, Button, Flex, ScrollArea, Text } from '@radix-ui/themes'
+import {
+  Box,
+  Button,
+  Flex,
+  ScrollArea,
+  Text,
+  TextArea,
+  TextField,
+} from '@radix-ui/themes'
 import { Editor } from 'novel'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import GitHubButton from 'react-github-button'
 import { toast, Toaster } from 'sonner'
 
 import { MetaTags } from '@redwoodjs/web'
 
 import ContactCard, { ContactInfo } from 'src/components/App/ContactCard'
 import CSVUpload from 'src/components/App/CSVUpload'
+import IntroCard, { Card } from 'src/components/App/IntroCard'
 import SetAPI from 'src/components/App/SetApi'
 import SetMessageContents from 'src/components/App/SetMessageContents'
+import { useSettings } from 'src/providers/context/SettingsContext'
 
 const HomePage = () => {
-  const [showEditor, setShowEditor] = React.useState(false)
+  const { settings } = useSettings()
+
   const [messageContents, setMessageContents] = React.useState('')
+  const [subjectText, setMessageSubject] = React.useState('')
 
   const [textContents, setTextContents] = React.useState('')
   const [htmlContents, setHtmlContents] = React.useState('')
+
   const [selectedUser, setSelectedUser] = React.useState(null)
   const [list, setList] = React.useState([
     {
       name: 'Jijin P',
       email: 'jijin@devzstudio.com',
+      status: 'completed',
     },
     {
       name: 'Jithin P',
@@ -36,35 +53,42 @@ const HomePage = () => {
     },
   ])
 
-  console.log('messageContents')
-  console.log(messageContents)
-
   useEffect(() => {
     if (selectedUser) {
-      setShowEditor(false)
-      // lets update the localstorage value
-      const item = window.localStorage.getItem(selectedUser.email)
-
-      if (item) {
-        const value = JSON.stringify(item)
+      setMessageSubject(
+        settings.subject
           .replace('[NAME]', selectedUser.name)
           .replace('[EMAIL]', selectedUser.email)
+      )
 
-        console.log(value)
-
-        window.localStorage.setItem(selectedUser.email, JSON.parse(value))
-        setShowEditor(true)
+      if (settings.editor === 'textarea') {
+        setTextContents(
+          settings.message
+            .replace('[NAME]', selectedUser.name)
+            .replace('[EMAIL]', selectedUser.email)
+        )
       } else {
-        const item = window.localStorage.getItem('saved-message-contents')
-        const value = JSON.stringify(item)
-          .replace('[NAME]', selectedUser.name)
-          .replace('[EMAIL]', selectedUser.email)
+        const item = window.localStorage.getItem(selectedUser.email)
 
-        window.localStorage.setItem(selectedUser.email, JSON.parse(value))
-        setShowEditor(true)
+        if (item) {
+          const value = JSON.stringify(item)
+            .replace('[NAME]', selectedUser.name)
+            .replace('[EMAIL]', selectedUser.email)
+
+          console.log(value)
+
+          window.localStorage.setItem(selectedUser.email, JSON.parse(value))
+        } else {
+          const item = window.localStorage.getItem('saved-message-contents')
+          const value = JSON.stringify(item)
+            .replace('[NAME]', selectedUser.name)
+            .replace('[EMAIL]', selectedUser.email)
+
+          window.localStorage.setItem(selectedUser.email, JSON.parse(value))
+        }
       }
     }
-  }, [selectedUser])
+  }, [selectedUser, settings])
 
   return (
     <>
@@ -76,11 +100,18 @@ const HomePage = () => {
           colorScheme: 'dark',
         }}
       >
-        <div className="p-5">
+        <div className="flex items-center justify-between border-b border-gray-800 p-5">
           <h1 className="flex items-center space-x-2">
             <MagicWandIcon />
             <span>ColdMail.Tools</span>
           </h1>
+
+          <GitHubButton
+            type="stargazers"
+            namespace="Devzstudio"
+            repo="tailwind_to_css"
+            className="sm:mr-2"
+          />
         </div>
 
         <section className="grid gap-5 md:grid-cols-12">
@@ -88,7 +119,7 @@ const HomePage = () => {
             aria-colspan={2}
             direction="column"
             gap="3"
-            className="col-span-3"
+            className="col-span-3 border-r border-gray-800 pr-2"
           >
             <Box height="5">
               <div className="space-y-1 p-2">
@@ -145,65 +176,146 @@ const HomePage = () => {
                 <SetMessageContents
                   onSave={(contents) => setMessageContents(contents)}
                 />
-                <SetAPI onSave={(contents) => setMessageContents(contents)} />
+                <SetAPI />
               </div>
               {selectedUser ? (
                 <>
-                  <ContactInfo item={selectedUser} />
-
-                  {showEditor ? (
+                  {settings.message !== '' ? (
                     <>
-                      <Editor
-                        //  className="h-50 min-h-screen"
-                        defaultValue={messageContents}
-                        onUpdate={(value) => {
-                          setHtmlContents(value.getHTML())
-                          setTextContents(value.getText())
-                        }}
-                        storageKey={selectedUser.email}
-                      />
+                      <ContactInfo item={selectedUser} />
+
+                      <div className="space-y-1">
+                        <Text color="gray" size="2">
+                          Subject
+                        </Text>
+
+                        <TextField.Input
+                          size="2"
+                          id="openai"
+                          placeholder="Message Subject"
+                          value={subjectText}
+                          onChange={(e) => setMessageSubject(e.target.value)}
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Text color="gray" size="2">
+                          Message
+                        </Text>
+                        {settings.editor === 'textarea' ? (
+                          <TextArea
+                            rows={18}
+                            className="h-50 min-h-screen"
+                            placeholder="Type your message here..."
+                            value={textContents}
+                            onChange={(e) => setTextContents(e.target.value)}
+                          />
+                        ) : (
+                          <Editor
+                            //  className="h-50 min-h-screen"
+                            defaultValue={messageContents}
+                            onUpdate={(value) => {
+                              setHtmlContents(value.getHTML())
+                              setTextContents(value.getText())
+                            }}
+                            storageKey={selectedUser.email}
+                          />
+                        )}
+                      </div>
 
                       <Flex
+                        justify={'between'}
                         direction="row"
                         gap="3"
                         align={'center'}
-                        className="space-x-5 p-5"
+                        className="p-5"
                       >
-                        <CopyToClipboard
-                          text={htmlContents}
-                          onCopy={() => toast('Copied to clipboard!')}
-                        >
-                          <Button color="gray" variant="ghost">
-                            <CopyIcon /> Copy Html
-                          </Button>
-                        </CopyToClipboard>
-                        <CopyToClipboard
-                          text={textContents}
-                          onCopy={() => toast('Copied to clipboard!')}
-                        >
-                          <Button color="gray" variant="ghost">
-                            <CopyIcon /> Copy raw text
-                          </Button>
-                        </CopyToClipboard>
+                        <div className="flex items-center space-x-5">
+                          <span className="text-xs text-gray-500">Copy</span>
+                          <CopyToClipboard
+                            text={subjectText}
+                            onCopy={() => toast('Copied to clipboard!')}
+                          >
+                            <Button color="gray" variant="ghost">
+                              <CopyIcon /> Subject
+                            </Button>
+                          </CopyToClipboard>
 
-                        <Button variant="solid" size={'2'}>
-                          <PaperPlaneIcon /> Send
-                        </Button>
+                          {settings.editor === 'textarea' ? null : (
+                            <CopyToClipboard
+                              text={htmlContents}
+                              onCopy={() => toast('Copied to clipboard!')}
+                            >
+                              <Button color="gray" variant="ghost">
+                                <CopyIcon /> Html
+                              </Button>
+                            </CopyToClipboard>
+                          )}
+
+                          <CopyToClipboard
+                            text={textContents}
+                            onCopy={() => toast('Copied to clipboard!')}
+                          >
+                            <Button color="gray" variant="ghost">
+                              <CopyIcon />
+
+                              {settings.editor === 'textarea'
+                                ? 'Message'
+                                : 'Raw text'}
+                            </Button>
+                          </CopyToClipboard>
+                        </div>
+
+                        <div className="flex items-center space-x-5">
+                          <span className="text-xs text-gray-500">
+                            Send Message on{' '}
+                          </span>
+
+                          <Button color="gray" variant="ghost" size={'2'}>
+                            <TwitterLogoIcon /> Twitter
+                          </Button>
+                          <a
+                            href={`https://web.whatsapp.com/send?text=${encodeURI(
+                              textContents
+                            )}`}
+                            target="_BLANK"
+                            rel="noreferrer noopener"
+                          >
+                            <Button color="gray" variant="ghost" size={'2'}>
+                              WhatsApp
+                            </Button>
+                          </a>
+                          <a
+                            href={`https://t.me/share/url?url=${encodeURI(
+                              textContents
+                            )}`}
+                            target="_BLANK"
+                            rel="noreferrer noopener"
+                          >
+                            <Button color="gray" variant="ghost" size={'2'}>
+                              Telegram
+                            </Button>
+                          </a>
+                          {settings.resend_api ? (
+                            <Button variant="solid" size={'2'}>
+                              <PaperPlaneIcon /> Mail
+                            </Button>
+                          ) : null}
+                        </div>
                       </Flex>
                     </>
                   ) : (
                     <>
-                      <Text as="div" size="2" color="blue">
-                        Set Message Contents to get started!
-                      </Text>
+                      <Card
+                        title="Set Message Contets"
+                        description="Set your message contents & settings."
+                        icon={<GearIcon className="h-10 w-10" />}
+                      />
                     </>
                   )}
                 </>
               ) : (
                 <div className="grid place-items-center items-center">
-                  <Text as="div" size="2" color="blue">
-                    Select user from left side!
-                  </Text>
+                  <IntroCard />
                 </div>
               )}
             </div>
