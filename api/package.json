@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@redwoodjs/api": "6.1.1",
-    "@redwoodjs/graphql-server": "6.1.1",
+    "@redwoodjs/api": "6.2.0",
+    "@redwoodjs/graphql-server": "6.2.0",
     "ai": "^2.2.11",
     "openai": "^4.4.0",
     "resend": "^1.0.0"
