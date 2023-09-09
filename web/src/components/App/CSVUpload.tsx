@@ -41,6 +41,7 @@ const CSVUpload = ({ onSave }: { onSave: (value: any[]) => void }) => {
                   email: data[0],
                   name: data[1] ?? '',
                   twitter: data[2] ?? '',
+                  phone: data[3],
                 })
             }
           }

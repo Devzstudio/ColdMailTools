@@ -39,44 +39,34 @@ const SetAPI = () => {
             </Text>
             <TextField.Input
               size="2"
-              placeholder="Resend API Key"
+              placeholder=""
               value={settings.resend_api}
               onChange={(e) => onUpdateSettings('resend_api', e.target.value)}
             />
           </div>
+          {settings.resend_api && (
+            <div className="space-y-1">
+              <Text color="gray" size="2">
+                From Email:
+              </Text>
+              <TextField.Input
+                size="2"
+                placeholder=""
+                value={settings.from_email}
+                onChange={(e) => onUpdateSettings('from_email', e.target.value)}
+              />
+            </div>
+          )}
+
           <div className="space-y-1">
             <Text color="gray" size="2">
-              From Email:
-            </Text>
-            <TextField.Input
-              size="2"
-              placeholder="From Email"
-              value={settings.from_email}
-              onChange={(e) => onUpdateSettings('from_email', e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
-            <Text color="gray" size="2">
-              OpenAI Api Key
+              Twitter Id
             </Text>
 
             <TextField.Input
               size="2"
               id="openai"
-              placeholder="OpenAI API Key"
-              value={settings.openai_api}
-              onChange={(e) => onUpdateSettings('openai_api', e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
-            <Text color="gray" size="2">
-              Twitter Username
-            </Text>
-
-            <TextField.Input
-              size="2"
-              id="openai"
-              placeholder="Your twitter id: 167xxxxxx"
+              placeholder="167xxxxxx"
               value={settings.twitter_id}
               onChange={(e) => onUpdateSettings('twitter_id', e.target.value)}
             />
@@ -89,23 +79,38 @@ const SetAPI = () => {
             <div>
               <Select.Root
                 defaultValue="textarea"
-                //  value={settings.editor}
+                value={settings.editor}
+                onValueChange={(e) => {
+                  onUpdateSettings('editor', e)
+                }}
               >
                 <Select.Trigger radius="large" />
-                <Select.Content
-                  onChange={(e) => {
-                    console.log(e)
-                  }}
-                  onClick={(e) => {
-                    console.log(e)
-                  }}
-                >
+                <Select.Content>
                   <Select.Item value="textarea">Textarea</Select.Item>
                   <Select.Item value="wysiwyg">WYSIWYG</Select.Item>
                 </Select.Content>
               </Select.Root>
             </div>
           </div>
+          {settings.editor === 'wysiwyg' && (
+            <>
+              <div className="space-y-1">
+                <Text color="gray" size="2">
+                  OpenAI Api Key
+                </Text>
+
+                <TextField.Input
+                  size="2"
+                  id="openai"
+                  placeholder=""
+                  value={settings.openai_api}
+                  onChange={(e) =>
+                    onUpdateSettings('openai_api', e.target.value)
+                  }
+                />
+              </div>
+            </>
+          )}
         </div>
 
         <Flex gap="3" mt="4" justify="end">

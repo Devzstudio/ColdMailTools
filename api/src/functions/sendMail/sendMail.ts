@@ -22,14 +22,32 @@ import { logger } from 'src/lib/logger'
 export const handler = async (event: APIGatewayEvent, _context: Context) => {
   logger.info(`${event.httpMethod} ${event.path}: sendMail function`)
 
-  const resend = new Resend('re_123456789')
+  console.log('function called !!!!')
+
+  console.log(event.headers)
+  console.log(event.body)
+
+  const { to, from, api_key, subject, message, html_email } = JSON.parse(
+    event.body
+  )
+
+  console.log({
+    to,
+    from,
+    api_key,
+    subject,
+    message,
+    html_email,
+  })
+
+  const resend = new Resend(api_key)
 
   try {
     const data = await resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
-      to: ['delivered@resend.dev'],
-      subject: 'Hello World',
-      html: '<strong>It works!</strong>',
+      from: from,
+      to: [to],
+      subject: subject,
+      html: html_email ? html_email : message,
     })
 
     console.log(data)
@@ -43,7 +61,7 @@ export const handler = async (event: APIGatewayEvent, _context: Context) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      data: 'sendMail function',
+      data: 'Email send successfully',
     }),
   }
 }

@@ -41,18 +41,7 @@ const HomePage = () => {
   const [htmlContents, setHtmlContents] = React.useState('')
 
   const [selectedUser, setSelectedUser] = React.useState(null)
-  const [list, setList] = React.useState([
-    {
-      name: 'Jijin P',
-      email: 'jijin@devzstudio.com',
-      twitter: 'pjijin_',
-      status: 'completed',
-    },
-    {
-      name: 'Jithin P',
-      email: 'jithin@devzstudio.com',
-    },
-  ])
+  const [list, setList] = React.useState([])
 
   useEffect(() => {
     if (selectedUser) {
@@ -76,8 +65,6 @@ const HomePage = () => {
             .replace('[NAME]', selectedUser.name)
             .replace('[EMAIL]', selectedUser.email)
 
-          console.log(value)
-
           window.localStorage.setItem(selectedUser.email, JSON.parse(value))
         } else {
           const item = window.localStorage.getItem('saved-message-contents')
@@ -99,6 +86,23 @@ const HomePage = () => {
       newList[index].status = 'completed'
       setList(newList)
     }
+  }
+
+  const sendResendEmail = async () => {
+    const response = await fetch('./.redwood/functions/sendMail', {
+      method: 'POST',
+      headers: {},
+      body: JSON.stringify({
+        to: selectedUser.email,
+        from: settings.from_email,
+        api_key: settings.resend_api,
+        subject: subjectText,
+        message: textContents,
+        html_email: htmlContents,
+      }),
+    })
+
+    toast.success('Email sent!')
   }
 
   return (
@@ -158,9 +162,15 @@ const HomePage = () => {
                       }}
                     />
 
-                    <Button color="gray" variant="soft">
-                      Example CSV
-                    </Button>
+                    <a
+                      href="/contacts.csv"
+                      target="_BLANK"
+                      rel="noreferrer noopener"
+                    >
+                      <Button color="gray" variant="soft">
+                        Example CSV
+                      </Button>
+                    </a>
                   </div>
                 ) : (
                   <ScrollArea
@@ -284,7 +294,7 @@ const HomePage = () => {
 
                         <div className="flex items-center space-x-5">
                           <span className="text-xs text-gray-500">
-                            Send Message on{' '}
+                            Send message on{' '}
                           </span>
 
                           {settings.twitter_id && selectedUser.twitter_id ? (
@@ -311,7 +321,7 @@ const HomePage = () => {
                           <a
                             href={`https://web.whatsapp.com/send?text=${encodeURI(
                               textContents
-                            )}`}
+                            )}&phone=${selectedUser?.phone ?? ''}}`}
                             target="_BLANK"
                             rel="noreferrer noopener"
                             onClick={() => {
@@ -340,6 +350,7 @@ const HomePage = () => {
                             <Button
                               onClick={() => {
                                 markAsCompleted(selectedUser)
+                                sendResendEmail()
                               }}
                               variant="solid"
                               size={'2'}
