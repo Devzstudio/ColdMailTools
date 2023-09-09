@@ -1,10 +1,11 @@
-## What I want to build
+# ColdMailTools
 
-## More Detailed Description
+[![ColdMailTools](https://raw.githubusercontent.com/Devzstudio/ColdMailTools/main/preview.png "ColdMailTools")]()
 
-## Permissive License
+Sending cold messages is made easier with ColdMailTool. You can easily import your contacts, send the customized message directly to their Telegram, Whatsapp, Twitter, or email accounts.
 
-Use one of the following permissive licenses for your code: [MIT](https://choosealicense.com/licenses/mit/), [Apache](https://www.apache.org/licenses/), [BSD-2](https://opensource.org/licenses/BSD-2-Clause), [BSD-3](https://opensource.org/licenses/BSD-3-Clause), or [Commons Clause](https://commonsclause.com/).
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 ## Background (What made you decide to build this particular app? What inspired you?)
 

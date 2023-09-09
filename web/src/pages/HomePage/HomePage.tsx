@@ -109,7 +109,7 @@ const HomePage = () => {
           <GitHubButton
             type="stargazers"
             namespace="Devzstudio"
-            repo="tailwind_to_css"
+            repo="coldmailtools"
             className="sm:mr-2"
           />
         </div>

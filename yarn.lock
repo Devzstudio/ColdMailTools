@@ -20296,7 +20296,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.8.1, prop-types@npm:^15.0.0, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.0.0, prop-types@npm:^15.5.10, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -20790,6 +20790,15 @@ __metadata:
   version: 3.2.2
   resolution: "react-fast-compare@npm:3.2.2"
   checksum: 0bbd2f3eb41ab2ff7380daaa55105db698d965c396df73e6874831dbafec8c4b5b08ba36ff09df01526caa3c61595247e3269558c284e37646241cba2b90a367
+  languageName: node
+  linkType: hard
+
+"react-github-button@npm:^0.1.11":
+  version: 0.1.11
+  resolution: "react-github-button@npm:0.1.11"
+  dependencies:
+    prop-types: ^15.5.10
+  checksum: e00fa4f3b2dee74f45fff0c9d68d7d75eefa495d27a56ef2e2391f9600623d16b8a9f99c1d35a7b4f620dfb95dd8ed0b1a76fbbfece4be0843cd507c17a37dfa
   languageName: node
   linkType: hard
 
@@ -24656,6 +24665,7 @@ __metadata:
     react-copy-to-clipboard: ^5.1.0
     react-dom: 18.2.0
     react-dropzone: ^14.2.3
+    react-github-button: ^0.1.11
     react-nice-avatar: ^1.4.1
     sonner: ^0.7.0
     tailwindcss: ^3.3.3
