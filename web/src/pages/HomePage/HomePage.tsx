@@ -89,7 +89,7 @@ const HomePage = () => {
   }
 
   const sendResendEmail = async () => {
-    const response = await fetch('./.redwood/functions/sendMail', {
+    const response = await fetch('api/sendMail', {
       method: 'POST',
       headers: {},
       body: JSON.stringify({
@@ -101,6 +101,8 @@ const HomePage = () => {
         html_email: htmlContents,
       }),
     })
+
+    console.log(response)
 
     toast.success('Email sent!')
   }

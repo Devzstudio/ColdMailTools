@@ -19,10 +19,6 @@ Sending cold messages is made easier with ColdMailTool. You can easily import yo
 - 🤖 Integrated WYSIWYG editor with OpenAI Suggestions
 
 
-## Background
-
-## How will you utilize RedwoodJS?
-
 ## Additional Resources/Info
 
 - Live Demo: https://coldmail.vercel.app/
