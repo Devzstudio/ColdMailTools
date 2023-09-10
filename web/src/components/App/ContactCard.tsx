@@ -7,7 +7,7 @@ export const ContactInfo = ({ item }: { item: any }) => {
       <Avatar className="h-12 w-12" {...genConfig(item.email)} />
 
       <Box>
-        <Text as="div" size="2" weight="bold">
+        <Text className="capitalize" as="div" size="2" weight="bold">
           {item.name}
         </Text>
         <Text as="div" size="2" color="gray">

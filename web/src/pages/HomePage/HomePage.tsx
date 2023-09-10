@@ -121,12 +121,23 @@ const HomePage = () => {
             <span>ColdMail.Tools</span>
           </h1>
 
-          <GitHubButton
-            type="stargazers"
-            namespace="Devzstudio"
-            repo="coldmailtools"
-            className="sm:mr-2"
-          />
+          <div className="flex items-center space-x-5">
+            <GitHubButton
+              type="stargazers"
+              namespace="Devzstudio"
+              repo="coldmailtools"
+              className="sm:mr-2"
+            />
+
+            <a
+              href="https://github.com/Devzstudio/ColdMailTools/issues/new"
+              target="_BLANK"
+              rel="noreferrer"
+              className="text-sm text-gray-300 hover:text-gray-100"
+            >
+              Report Issues
+            </a>
+          </div>
         </div>
 
         <section className="grid gap-5 md:grid-cols-12">

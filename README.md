@@ -6,6 +6,18 @@ Sending cold messages is made easier with ColdMailTool. You can easily import yo
 
 [![ColdMailTools](https://raw.githubusercontent.com/Devzstudio/ColdMailTools/main/preview.png "ColdMailTools")]()
 
+## Features
+
+- 📥 Import contacts from CSV
+
+- 📪 Send messages to Telegram, Whatsapp, Twitter, or email
+
+- 💬 Customize messages with variables
+
+- ✅ Track status of messages
+
+- 🤖 Integrated WYSIWYG editor with OpenAI Suggestions
+
 
 ## Background
 
